@@ -46,3 +46,9 @@ def test_build_giturl():
         url = gitutil.build_giturl("guyskk", "kkblog",
                                    style=k, host="github.com")
         assert url == v
+
+
+def test_build_fileurl():
+    url = gitutil.build_fileurl('guyskk', 'pygitutil', "readme.md", branch="master",
+                                schema="https", host="github.com")
+    assert url == "https://github.com/guyskk/pygitutil/raw/master/readme.md"

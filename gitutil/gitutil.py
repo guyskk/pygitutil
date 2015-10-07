@@ -94,7 +94,7 @@ def pull_or_clone(repo_url, dest, branch="master"):
         return pull(repo_url, dest, branch)
 
 
-def modified_files(dest, repo_url, commit1, commit2=None):
+def modified_files(dest, commit1, commit2=None):
     """branch=master
 
     出现乱码问题需要执行:
@@ -112,15 +112,16 @@ def modified_files(dest, repo_url, commit1, commit2=None):
         U: file is unmerged (you must complete the merge before it can be committed)
         X: "unknown" change type (most probably a bug, please report it)
     """
-    __, __, repo = parse_giturl(repo_url)
-    cwd = os.path.join(dest, repo)
-    if not os.path.exists(cwd):
-        raise IOError("repo not exists: %s" % cwd)
+    # __, __, repo = parse_giturl(repo_url)
+    # cwd = os.path.join(dest, repo)
+    # if not os.path.exists(cwd):
+    #     raise IOError("repo not exists: %s" % cwd)
+
     cmd = ["git", "diff", "--name-status", "--raw", commit1]
     if commit2:
         cmd.append(commit2)
-    shell.run(["git", "config", "core.quotepath", "false"], cwd=cwd)
-    err, ret = shell.run(cmd, cwd=cwd)
+    shell.run(["git", "config", "core.quotepath", "false"], cwd=dest)
+    err, ret = shell.run(cmd, cwd=dest)
     if err:
         raise err
     result = []

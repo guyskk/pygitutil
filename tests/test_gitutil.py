@@ -1,7 +1,7 @@
 # coding:utf-8
 
 from __future__ import unicode_literals
-from gitutil import gitutil
+import gitutil
 import os
 URLS = {
     "ssh": "git@github.com:guyskk/kkblog.git",
@@ -28,8 +28,9 @@ def test_pull_or_clone():
 
 def test_modified_files():
     test_pull_or_clone()
-    t_en = gitutil.modified_files(REPO_EN, REPO_URL, "1a1bba5d3")
-    t_cn = gitutil.modified_files(REPO_CN, REPO_URL, "1a1bba5d3")
+    host, owner, repo = gitutil.parse_giturl(REPO_URL)
+    t_en = gitutil.modified_files(os.path.join(REPO_EN, repo), "1a1bba5d3")
+    t_cn = gitutil.modified_files(os.path.join(REPO_CN, repo), "1a1bba5d3")
     assert t_cn == t_en
 
 

@@ -1,4 +1,3 @@
-import gitutil
-import shell
+# coding:utf-8
 
-__all__ = ["gitutil", "shell"]
+from .gitutil import *

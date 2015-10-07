@@ -1,10 +1,12 @@
-from distutils.core import setup
+# coding:utf-8
+
+from setuptools import setup
 setup(
-    name="gitutil",
-    version="0.0.1",
-    description="gitutil",
+    name="pygitutil",
+    version="0.0.2",
+    description="pygitutil",
     author="kk",
-    url="https://github.com/guyskk/gitutil",
+    url="https://github.com/guyskk/pygitutil",
     license="MIT",
     packages=["gitutil"],
     install_requires=[],

@@ -13,12 +13,14 @@ def run(args, **kwargs):
     """
     err = None
     ret = None
-    assert sys.__stdin__.encoding is not None
-    if isinstance(args, list):
-        encoded_args = [s.encode(sys.__stdin__.encoding) for s in args
-                        if s is not None]
+    if sys.__stdin__.encoding is None:
+        encoding = "utf-8"
     else:
-        encoded_args = args.encode(sys.__stdin__.encoding)
+        encoding = sys.__stdin__.encoding
+    if isinstance(args, list):
+        encoded_args = [s.encode(encoding) for s in args if s is not None]
+    else:
+        encoded_args = args.encode(encoding)
     if "cwd" in kwargs:
         cwd = kwargs["cwd"]
         assert type(cwd) == unicode, "All string params must be unicode string"
@@ -32,10 +34,11 @@ def run(args, **kwargs):
         except (OSError, CalledProcessError) as ex:
             err = ex
     if ret is not None:
-        encoding = [sys.stdout.encoding, "utf-8", "gbk",
-                    sys.getfilesystemencoding(), sys.getdefaultencoding()]
+        encodings = [sys.stdout.encoding, "utf-8", "gbk",
+                     sys.getfilesystemencoding(), sys.getdefaultencoding()]
+        encodings = [x for x in encodings if x is not None]
         ex = None
-        for enco in encoding:
+        for enco in encodings:
             try:
                 ret = ret.decode(enco)
                 break

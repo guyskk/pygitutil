@@ -112,10 +112,6 @@ def modified_files(dest, commit1, commit2=None):
         U: file is unmerged (you must complete the merge before it can be committed)
         X: "unknown" change type (most probably a bug, please report it)
     """
-    # __, __, repo = parse_giturl(repo_url)
-    # cwd = os.path.join(dest, repo)
-    # if not os.path.exists(cwd):
-    #     raise IOError("repo not exists: %s" % cwd)
 
     cmd = ["git", "diff", "--name-status", "--raw", commit1]
     if commit2:
@@ -131,3 +127,15 @@ def modified_files(dest, commit1, commit2=None):
             filepath = filepath.strip("\"")
             result.append((status, filepath))
     return result
+
+
+def git_log(dest):
+    """run git log
+
+    :return: tuple(commit, author, author_email, date, message)
+    """
+    pattern = ur"commit *(\w{40})[\r\n]*Author: *(\w*) *<(\S*)>[\r\n]*Date: * (.*)[\r\n]* *(.*) *[\r\n]*"
+    err, ret = shell.run("git log", cwd=dest)
+    if err:
+        raise err
+    return re.findall(pattern, ret)

@@ -30,7 +30,7 @@ def run(args, **kwargs):
         ret = check_output(encoded_args, **kwargs)
     except (OSError, CalledProcessError):
         try:
-            ret = check_output(args, shell=True)
+            ret = check_output(encoded_args, **dict(kwargs, shell=True))
         except (OSError, CalledProcessError) as ex:
             err = ex
     if ret is not None:

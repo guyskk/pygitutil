@@ -3,7 +3,7 @@
 from setuptools import setup
 setup(
     name="pygitutil",
-    version="0.0.4",
+    version="0.0.5",
     description="pygitutil",
     author="kk",
     url="https://github.com/guyskk/pygitutil",
